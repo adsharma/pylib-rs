@@ -2,6 +2,7 @@ extern crate pylib;
 extern crate tempfile;
 use pylib::FileReadString;
 use pylib::FileWriteString;
+use pylib::StdinReadLine;
 use std::fs::OpenOptions;
 
 use tempfile::NamedTempFile;
@@ -25,5 +26,12 @@ mod tests {
         }
         Ok(())
     }
-}
 
+    #[test]
+    #[ignore]  // Disabled because it involves reading stdin
+    fn test_read_stdin() -> Result<(), std::io::Error> {
+        let line = std::io::stdin().read_string()?;
+        println!("stdin: {}", line);
+        Ok(())
+    }
+}
