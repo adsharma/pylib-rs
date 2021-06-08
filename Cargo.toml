@@ -1,6 +1,6 @@
 [package]
 name = "pylib"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Arun Sharma <arun@sharma-home.net>"]
 edition = "2018"
 description = "A library for python compatible APIs"
