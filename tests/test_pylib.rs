@@ -28,10 +28,27 @@ mod tests {
     }
 
     #[test]
-    #[ignore]  // Disabled because it involves reading stdin
+    #[ignore] // Disabled because it involves reading stdin
     fn test_read_stdin() -> Result<(), std::io::Error> {
         let line = std::io::stdin().read_string()?;
         println!("stdin: {}", line);
+        Ok(())
+    }
+
+    #[test]
+    fn test_time() -> Result<(), std::io::Error> {
+        let t1 = pylib::time();
+        let t2 = pylib::time();
+        assert!(t2 > t1);
+        Ok(())
+    }
+
+    #[test]
+    fn test_random() -> Result<(), std::io::Error> {
+        let t1 = pylib::time();
+        let _rng = pylib::random::reseed_from_f64(t1);
+        println!("{}", pylib::random::random());
+        println!("{}", pylib::random::random());
         Ok(())
     }
 }
