@@ -1,6 +1,8 @@
 extern crate pylib;
 extern crate tempfile;
+use pylib::FileReadBytes;
 use pylib::FileReadString;
+use pylib::FileWriteBytes;
 use pylib::FileWriteString;
 use pylib::StdinReadLine;
 use std::fs::OpenOptions;
@@ -49,6 +51,27 @@ mod tests {
         let _rng = pylib::random::reseed_from_f64(t1);
         println!("{}", pylib::random::random());
         println!("{}", pylib::random::random());
+        Ok(())
+    }
+
+    #[test]
+    fn test_read_write_bytes() -> Result<(), std::io::Error> {
+        let temp_file: _ = NamedTempFile::new()?;
+        let file_path: _ = temp_file.path();
+        {
+            let mut f: _ = OpenOptions::new().write(true).open(file_path)?;
+            let s = String::from("hello");
+            f.write_bytes(&s.into_bytes())?
+        }
+        {
+            let mut f: _ = OpenOptions::new().read(true).open(file_path)?;
+            let out = f.read_bytes(3)?;
+            let expected = String::from("hel").into_bytes();
+            assert_eq!(out, expected);
+            let out2 = f.read_bytes(2)?;
+            let expected2 = String::from("lo").into_bytes();
+            assert_eq!(out2, expected2);
+        }
         Ok(())
     }
 }
