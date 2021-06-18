@@ -1,5 +1,6 @@
 extern crate pylib;
 extern crate tempfile;
+use anyhow::Result;
 use pylib::FileReadBytes;
 use pylib::FileReadString;
 use pylib::FileWriteBytes;
@@ -15,7 +16,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_tmp_file() -> Result<(), std::io::Error> {
+    fn test_tmp_file() -> Result<()> {
         let temp_file: _ = NamedTempFile::new()?;
         let file_path: _ = temp_file.path();
         {
@@ -31,14 +32,14 @@ mod tests {
 
     #[test]
     #[ignore] // Disabled because it involves reading stdin
-    fn test_read_stdin() -> Result<(), std::io::Error> {
+    fn test_read_stdin() -> Result<()> {
         let line = std::io::stdin().read_string()?;
         println!("stdin: {}", line);
         Ok(())
     }
 
     #[test]
-    fn test_time() -> Result<(), std::io::Error> {
+    fn test_time() -> Result<()> {
         let t1 = pylib::time();
         let t2 = pylib::time();
         assert!(t2 > t1);
@@ -46,7 +47,7 @@ mod tests {
     }
 
     #[test]
-    fn test_random() -> Result<(), std::io::Error> {
+    fn test_random() -> Result<()> {
         let t1 = pylib::time();
         let _rng = pylib::random::reseed_from_f64(t1);
         println!("{}", pylib::random::random());
@@ -55,7 +56,7 @@ mod tests {
     }
 
     #[test]
-    fn test_read_write_bytes() -> Result<(), std::io::Error> {
+    fn test_read_write_bytes() -> Result<()> {
         let temp_file: _ = NamedTempFile::new()?;
         let file_path: _ = temp_file.path();
         {
